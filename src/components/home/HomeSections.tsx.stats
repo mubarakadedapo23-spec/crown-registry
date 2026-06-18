@@ -1,0 +1,27 @@
+export function StatsBar({ stats }: { stats: any }) {
+  const items = [
+    { value: `${stats.listings ?? 0}`, label: "Active Listings" },
+    { value: `${stats.users ?? 0}`, label: "Registered Users" },
+    { value: `${stats.countries ?? 0}`, label: "Countries Represented" },
+  ];
+  const hasAnyData = (stats.listings ?? 0) > 0 || (stats.users ?? 0) > 0;
+  if (!hasAnyData) return null;
+
+  return (
+    <section className="border-y border-crown-gold/10 bg-gradient-to-r from-[#0a0803] via-[#050505] to-[#080600]">
+      <div className="container-luxury px-6">
+        <div className="grid grid-cols-3">
+          {items.map((item, i) => (
+            <div key={item.label}
+                 className={`py-8 text-center ${i < items.length - 1 ? "lg:border-r border-crown-gold/10" : ""}`}>
+              <p className="font-serif text-3xl lg:text-4xl text-gold-shimmer mb-1">{item.value}</p>
+              <p className="font-sans text-[9px] tracking-[0.25em] uppercase text-crown-ash/60">
+                {item.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

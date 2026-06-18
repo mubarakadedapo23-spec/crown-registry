@@ -270,7 +270,7 @@ export function CtaBand() {
             <em className="text-gold-shimmer">Reach the World.</em>
           </h2>
           <p className="font-sans text-crown-ash text-sm max-w-md mx-auto mb-10 relative z-10 leading-relaxed">
-            Join 14,000+ verified sellers and dealers serving ultra-high-net-worth buyers across 190 countries.
+            Join Crown Registry today and be among the first to list with us.
           </p>
           <div className="flex gap-4 justify-center relative z-10">
             <a href="/auth/register">
