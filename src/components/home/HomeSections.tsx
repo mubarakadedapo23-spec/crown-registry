@@ -1,20 +1,24 @@
-// ── StatsBar ──────────────────────────────────
-
 export function StatsBar({ stats }: { stats: any }) {
+  const listings = stats?.listings ?? 0;
+  const users = stats?.users ?? 0;
+  const countries = stats?.countries ?? 0;
+
+  const hasAnyData = listings > 0 || users > 0;
+  if (!hasAnyData) return null;
+
   const items = [
-    { value: `${stats.listings?.toLocaleString() ?? "140K"}+`, label: "Active Listings" },
-    { value: "$2.4B+", label: "Annual GMV" },
-    { value: `${stats.countries ?? 190}+`, label: "Countries" },
-    { value: "98%", label: "Verified Sellers" },
+    { value: `${listings}`, label: "Active Listings" },
+    { value: `${users}`, label: "Registered Users" },
+    { value: `${countries}`, label: "Countries Represented" },
   ];
 
   return (
     <section className="border-y border-crown-gold/10 bg-gradient-to-r from-[#0a0803] via-[#050505] to-[#080600]">
       <div className="container-luxury px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-3">
           {items.map((item, i) => (
             <div key={item.label}
-                 className={`py-8 text-center ${i < 3 ? "lg:border-r border-crown-gold/10" : ""}`}>
+                 className={`py-8 text-center ${i < items.length - 1 ? "lg:border-r border-crown-gold/10" : ""}`}>
               <p className="font-serif text-3xl lg:text-4xl text-gold-shimmer mb-1">{item.value}</p>
               <p className="font-sans text-[9px] tracking-[0.25em] uppercase text-crown-ash/60">
                 {item.label}
@@ -27,17 +31,15 @@ export function StatsBar({ stats }: { stats: any }) {
   );
 }
 
-// ── CategoryGrid ──────────────────────────────
-
 const CATEGORIES = [
-  { value: "LUXURY_CARS", label: "Luxury Cars", icon: "🏎", slug: "cars", count: "12,847" },
-  { value: "PRIVATE_JETS", label: "Private Jets", icon: "✈", slug: "aviation", count: "2,341" },
-  { value: "YACHTS", label: "Yachts", icon: "⛵", slug: "yachts", count: "4,209" },
-  { value: "REAL_ESTATE", label: "Real Estate", icon: "🏛", slug: "real-estate", count: "31,502" },
-  { value: "WATCHES", label: "Watches", icon: "⌚", slug: "watches", count: "18,903" },
-  { value: "FASHION", label: "Fashion", icon: "👗", slug: "fashion", count: "54,211" },
-  { value: "FINE_ART", label: "Fine Art", icon: "🖼", slug: "art", count: "7,842" },
-  { value: "JEWELRY", label: "Jewelry", icon: "💎", slug: "jewelry", count: "23,601" },
+  { value: "LUXURY_CARS", label: "Luxury Cars", icon: "🏎", slug: "cars" },
+  { value: "PRIVATE_JETS", label: "Private Jets", icon: "✈", slug: "aviation" },
+  { value: "YACHTS", label: "Yachts", icon: "⛵", slug: "yachts" },
+  { value: "REAL_ESTATE", label: "Real Estate", icon: "🏛", slug: "real-estate" },
+  { value: "WATCHES", label: "Watches", icon: "⌚", slug: "watches" },
+  { value: "FASHION", label: "Fashion", icon: "👗", slug: "fashion" },
+  { value: "FINE_ART", label: "Fine Art", icon: "🖼", slug: "art" },
+  { value: "JEWELRY", label: "Jewelry", icon: "💎", slug: "jewelry" },
 ];
 
 export function CategoryGrid() {
@@ -53,24 +55,17 @@ export function CategoryGrid() {
             <em className="text-gold-shimmer">One Marketplace</em>
           </h2>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-crown-gold/8">
           {CATEGORIES.map((cat) => (
-            <a
-              key={cat.value}
-              href={`/marketplace/${cat.slug}`}
+            <a key={cat.value} href={`/marketplace/${cat.slug}`}
               className="cat-card bg-crown-obsidian-mid p-8 flex flex-col gap-3
                          border border-crown-gold/8 hover:border-crown-gold/40
-                         hover:bg-crown-gold/[0.03] transition-all duration-300 group"
-            >
+                         hover:bg-crown-gold/[0.03] transition-all duration-300 group">
               <span className="text-3xl">{cat.icon}</span>
               <div>
                 <p className="font-serif text-crown-ivory text-lg group-hover:text-crown-gold
                                transition-colors duration-200">
                   {cat.label}
-                </p>
-                <p className="font-sans text-[10px] text-crown-ash/60 mt-1">
-                  {cat.count} listings
                 </p>
               </div>
               <span className="text-crown-ash/30 group-hover:text-crown-gold
@@ -83,30 +78,10 @@ export function CategoryGrid() {
   );
 }
 
-// ── LuxuryCollections ─────────────────────────
-
 const COLLECTIONS = [
-  {
-    title: "Hypercar Collection",
-    subtitle: "Beyond 300mph",
-    bg: "from-[#1a0500] to-[#050505]",
-    href: "/marketplace/cars/hypercars",
-    count: "127 assets",
-  },
-  {
-    title: "Superyacht Season",
-    subtitle: "Mediterranean & Caribbean",
-    bg: "from-[#00081a] to-[#050505]",
-    href: "/marketplace/yachts",
-    count: "89 vessels",
-  },
-  {
-    title: "Watches of Distinction",
-    subtitle: "Patek · Richard Mille · AP",
-    bg: "from-[#0d0d0d] to-[#050505]",
-    href: "/marketplace/watches",
-    count: "2,400+ pieces",
-  },
+  { title: "Hypercar Collection", subtitle: "Beyond 300mph", bg: "from-[#1a0500] to-[#050505]", href: "/marketplace/cars/hypercars" },
+  { title: "Superyacht Season", subtitle: "Mediterranean & Caribbean", bg: "from-[#00081a] to-[#050505]", href: "/marketplace/yachts" },
+  { title: "Watches of Distinction", subtitle: "Patek · Richard Mille · AP", bg: "from-[#0d0d0d] to-[#050505]", href: "/marketplace/watches" },
 ];
 
 export function LuxuryCollections() {
@@ -121,7 +96,6 @@ export function LuxuryCollections() {
             Featured Collections
           </h2>
         </div>
-
         <div className="grid md:grid-cols-3 gap-5">
           {COLLECTIONS.map((col) => (
             <a key={col.title} href={col.href}
@@ -135,9 +109,6 @@ export function LuxuryCollections() {
                 {col.subtitle}
               </p>
               <h3 className="font-serif text-2xl text-crown-ivory mb-1">{col.title}</h3>
-              <p className="font-sans text-[9px] text-crown-ash/50 tracking-widest uppercase">
-                {col.count}
-              </p>
               <span className="absolute top-6 right-6 text-crown-ash/20 group-hover:text-crown-gold
                                text-2xl transition-all duration-300 group-hover:translate-x-1">→</span>
             </a>
@@ -147,8 +118,6 @@ export function LuxuryCollections() {
     </section>
   );
 }
-
-// ── TrustSection ──────────────────────────────
 
 export function TrustSection() {
   return (
@@ -163,27 +132,11 @@ export function TrustSection() {
             <em>Discerning</em> Buyers
           </h2>
         </div>
-
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            {
-              num: "01",
-              icon: "✦",
-              title: "White-Glove Verification",
-              body: "Every seller, dealer, and listing undergoes rigorous KYC verification. Physical inspections, title checks, and authentication certificates for all major categories.",
-            },
-            {
-              num: "02",
-              icon: "◈",
-              title: "Escrow Protection",
-              body: "All transactions are secured through our FCA-regulated escrow system. Funds are only released upon confirmed delivery and buyer satisfaction.",
-            },
-            {
-              num: "03",
-              icon: "◆",
-              title: "Global Concierge",
-              body: "Our dedicated team of luxury asset specialists are available 24/7 to facilitate viewings, inspections, transport, and bespoke arrangements worldwide.",
-            },
+            { num: "01", icon: "✦", title: "Seller Verification", body: "Sellers and dealers can complete identity and business verification. Verified accounts are clearly badged so buyers know who they're dealing with." },
+            { num: "02", icon: "◈", title: "Escrow-Style Payments", body: "Payments are held until the buyer confirms delivery before funds are released to the seller, reducing risk on both sides of a transaction." },
+            { num: "03", icon: "◆", title: "Direct Messaging", body: "Buyers and sellers communicate directly through the platform to arrange viewings, inspections, and logistics for high-value assets." },
           ].map((item) => (
             <div key={item.num}
                  className="p-10 border border-crown-gold/12 bg-crown-gold/[0.015]
@@ -203,10 +156,8 @@ export function TrustSection() {
   );
 }
 
-// ── TopDealers ────────────────────────────────
-
 export function TopDealers({ dealers }: { dealers: any[] }) {
-  if (dealers.length === 0) return null;
+  if (!dealers || dealers.length === 0) return null;
   return (
     <section className="section-pad bg-[#030303]">
       <div className="container-luxury">
@@ -219,19 +170,15 @@ export function TopDealers({ dealers }: { dealers: any[] }) {
               Premier Dealers & Agencies
             </h2>
           </div>
-          <a href="/dealers"
-             className="hidden md:block font-sans text-[9px] tracking-widest uppercase
+          <a href="/dealers" className="hidden md:block font-sans text-[9px] tracking-widest uppercase
                         text-crown-gold border border-crown-gold/30 px-5 py-2.5
                         hover:border-crown-gold/60 transition-colors">
             All Dealers
           </a>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {dealers.map((dealer) => (
-            <a key={dealer.id}
-               href={`/dealers/${dealer.userId}`}
-               className="luxury-card p-5 text-center group">
+            <a key={dealer.id} href={`/dealers/${dealer.userId}`} className="luxury-card p-5 text-center group">
               <div className="w-12 h-12 bg-crown-gold/10 flex items-center justify-center
                               mx-auto mb-3 border border-crown-gold/20 group-hover:border-crown-gold/50
                               transition-colors text-crown-gold font-serif text-xl">
@@ -251,8 +198,6 @@ export function TopDealers({ dealers }: { dealers: any[] }) {
     </section>
   );
 }
-
-// ── CtaBand ───────────────────────────────────
 
 export function CtaBand() {
   return (
