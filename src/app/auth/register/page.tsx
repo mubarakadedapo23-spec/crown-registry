@@ -124,7 +124,7 @@ export default function RegisterPage() {
         redirect: false,
       });
 
-      router.push("/onboarding");
+      router.push("/auth/register/success");
     } catch {
       setServerError("Something went wrong. Please try again.");
       setLoading(false);
